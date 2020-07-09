@@ -17,6 +17,9 @@ namespace CardReportSystem
     {
         //車データを入れるバインディングリスト
         BindingList<Card> cards = new BindingList<Card>();
+        BigPicture bigPicture = new BigPicture();
+
+        private string FileName = "";
         private int SelectRow;
         string color;
         string cost;
@@ -30,10 +33,15 @@ namespace CardReportSystem
 
         private void btAdd_Click(object sender, EventArgs e)
         {
-            if (dtpData.Text == "" || cbCardType.Text == "" || cbCardName.Text == "" || tbCardEffect.Text == "" || cbExpansion.Text == "" || cbRare.Text == "" || tbHave.Text == "")
+            if (dgvCardDate.Columns.Contains(tbCardName.Text))
+            {
+                ErrorMessage(6);
+            }
+            if (dtpData.Text == "" || cbCardType.Text == "" || tbCardName.Text == "" || tbCardEffect.Text == "" || cbExpansion.Text == "" || cbRare.Text == "" || tbHave.Text == "")
             {
                 ErrorMessage(1);
-            } else
+            }
+            else
             {
                 RadioSet();
 
@@ -70,7 +78,7 @@ namespace CardReportSystem
 
         private void TextErase()
         {
-            cbCardName.Text = null;
+            tbCardName.Text = null;
             cbCardType.Text = null;
             tbCardEffect.Text = null;
             pbCardImage.Image = null;
@@ -80,10 +88,7 @@ namespace CardReportSystem
         {
             Card card = new Card();
             card.time = dtpData.Value;
-            card.type = cbCardType.Text; 
-            card.name = cbCardName.Text;
-            card.picture = pbCardImage.Image;
-            card.Effect = tbCardEffect.Text;
+            card.type = cbCardType.Text;
             switch (color)
             {
                 case "赤":
@@ -105,6 +110,10 @@ namespace CardReportSystem
                     card.color = CardColor.無;
                     break;
             }
+            card.name = tbCardName.Text;
+            card.Effect = tbCardEffect.Text;
+            card.picture = pbCardImage.Image;
+            card.Expansion = cbExpansion.Text;
             switch (cost)
             {
                 case "1":
@@ -138,6 +147,8 @@ namespace CardReportSystem
                     card.Cost = "10+";
                     break;
             }
+            card.Rarity = cbRare.Text;
+            card.Have = int.Parse(tbHave.Text);
             cards.Insert(0, card);
 
             //メーカーをコンボボックスの入力候補に登録
@@ -166,6 +177,18 @@ namespace CardReportSystem
                 case 3:
                     ErrorText = "変更するものが選択されていません。";
                     break;
+                case 4:
+                    ErrorText = "画像がありません。";
+                    break;
+                case 5:
+                    ErrorText = "削除する行を選択してください。";
+                    break;
+                case 6:
+                    ErrorText = "同じ名前のデータが既に存在します。";
+                    break;
+                case 7:
+                    ErrorText = "変更する行が選択されていません。";
+                    break;
             }
             MessageBox.Show(ErrorText,
             "エラー",
@@ -188,30 +211,17 @@ namespace CardReportSystem
             pbCardImage.Image = null;
         }
 
-        private void btSave_Click(object sender, EventArgs e)
+        private void btModify_Click(object sender, EventArgs e)
         {
-            //セーブファイルダイアログを表示
-            if (sfdSaveData.ShowDialog() == DialogResult.OK)
+            if (dgvCardDate.SelectedRows.Count <= 0)
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                //ファイルストリームを生成
-                using (FileStream fs = new FileStream(sfdSaveData.FileName, FileMode.Create))
-                {
-                    try
-                    {
-                        //シリアル化して保存
-                        formatter.Serialize(fs, cards);
-                    } catch (SerializationException w)
-                    {
-                        Console.WriteLine("Failed to serialize. Reason: " + w.Message);
-                        throw;
-                    }
-                }
+                ErrorMessage(7);
+            } else {
+                Modify();
             }
         }
 
-        private void btModify_Click(object sender, EventArgs e)
+        private void Modify()
         {
             try
             {
@@ -274,22 +284,76 @@ namespace CardReportSystem
                 cards[SelectRow].Have = int.Parse(tbHave.Text);
                 cards[SelectRow].Rarity = cbRare.Text;
                 cards[SelectRow].type = cbCardType.Text;
-                cards[SelectRow].name = cbCardName.Text;
+                cards[SelectRow].name = tbCardName.Text;
                 cards[SelectRow].Effect = tbCardEffect.Text;
                 cards[SelectRow].picture = pbCardImage.Image;
                 this.dgvCardDate.Refresh();
-            }
-            catch (Exception)
+            } catch (Exception)
             {
                 ErrorMessage(3);
             }
         }
 
-        //行を選択
-
-
-        private void btRoad_Click(object sender, EventArgs e)
+        private void btDelete_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (dgvCardDate.SelectedRows.Count <= 0)
+                {
+                    ErrorMessage(5);
+                } else
+                {
+                    cards.RemoveAt(SelectRow);
+                    this.dgvCardDate.Refresh();
+                    TextErase();
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                ErrorMessage(2);
+            }
+        }
+
+        private void 終了XToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void 新規作成NToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cbCardType.Text = null;
+            tbCardName.Text = null;
+            rbRed.Checked = false;
+            rbBlue.Checked = false;
+            rbGreen.Checked = false;
+            rbWhite.Checked = false;
+            rbBlack.Checked = false;
+            rbNoColor.Checked = false;
+            rbCost1.Checked = false;
+            rbCost2.Checked = false;
+            rbCost3.Checked = false;
+            rbCost4.Checked = false;
+            rbCost5.Checked = false;
+            rbCost6.Checked = false;
+            rbCost7.Checked = false;
+            rbCost8.Checked = false;
+            rbCost9.Checked = false;
+            rbCost10over.Checked = false;
+            tbCardEffect.Text = null;
+            pbCardImage.Image = null;
+            cbRare.Text = null;
+            tbHave.Text = "0";
+            cbExpansion.Text = null;
+            dgvCardDate.ClearSelection();
+            //RadioReset();
+        }
+
+        private void 開くToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileName = ofdOpenData.FileName;
+            Text = Path.GetFileName(ofdOpenData.FileName) + " - メモ帳";
+            保存SToolStripMenuItem.Enabled = true;
+
             //オープンファイルダイアログを表示
             if (ofdOpenData.ShowDialog() == DialogResult.OK)
             {
@@ -302,8 +366,7 @@ namespace CardReportSystem
                         cards = (BindingList<Card>)formatter.Deserialize(fs);
                         //データグリッドビューに再設定
                         dgvCardDate.DataSource = cards;
-                        //選択されている箇所を各コントロールに表示
-                        dgvCardDate_Click(sender, e);
+                        dgvCardDate.ClearSelection();
                     } catch (SerializationException g)
                     {
                         Console.WriteLine("Failed to deserialize. Reason: " + g.Message);
@@ -316,20 +379,60 @@ namespace CardReportSystem
             dgvCardDate.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
         }
 
-        private void btDelete_Click(object sender, EventArgs e)
+        private void 修正ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            Modify();
+        }
+
+        private void 保存SToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //セーブファイルダイアログを表示
+            if (sfdSaveData.ShowDialog() == DialogResult.OK)
             {
-                cards.RemoveAt(SelectRow);
-                this.dgvCardDate.Refresh();
-                TextErase();
-            } catch (ArgumentOutOfRangeException)
-            {
-                ErrorMessage(2);
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                //ファイルストリームを生成
+                using (FileStream fs = new FileStream(sfdSaveData.FileName, FileMode.Create))
+                {
+                    try
+                    {
+                        //シリアル化して保存
+                        formatter.Serialize(fs, cards);
+                    } catch (SerializationException w)
+                    {
+                        Console.WriteLine("Failed to serialize. Reason: " + w.Message);
+                        throw;
+                    }
+                }
             }
         }
 
-        private void dgvCardDate_Click(object sender, EventArgs e)
+        private void 上書き保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //File.WriteAllText(FileName, textBox1.Text, Encoding.GetEncoding("Shift_JIS"));
+        }
+
+        private void pbCardImage_Click(object sender, EventArgs e)
+        {
+            if (pbCardImage.Image == null)
+            {
+                ErrorMessage(4);
+            } else {
+                bigPicture.Show();
+                bigPicture.BigPic(pbCardImage.Image);
+            }
+        }
+
+        private void tbHave_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void dgvCardDate_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -338,7 +441,6 @@ namespace CardReportSystem
                 dtpData.Text = dgvCardDate.CurrentRow.Cells[0].Value.ToString();
                 cbCardType.Text = dgvCardDate.CurrentRow.Cells[1].Value.ToString();
                 color = dgvCardDate.CurrentRow.Cells[2].Value.ToString();
-                cost = dgvCardDate.CurrentRow.Cells[7].Value.ToString();
                 switch (color)
                 {
                     case "赤":
@@ -360,6 +462,7 @@ namespace CardReportSystem
                         rbNoColor.Checked = true;
                         break;
                 }
+                cost = dgvCardDate.CurrentRow.Cells[7].Value.ToString();
                 switch (cost)
                 {
                     case "1":
@@ -393,32 +496,16 @@ namespace CardReportSystem
                         rbCost10over.Checked = true;
                         break;
                 }
-                cbCardName.Text = dgvCardDate.CurrentRow.Cells[3].Value.ToString();
+                tbCardName.Text = dgvCardDate.CurrentRow.Cells[3].Value.ToString();
                 tbCardEffect.Text = dgvCardDate.CurrentRow.Cells[4].Value.ToString();
                 pbCardImage.Image = cards[SelectRow].picture;
                 cbRare.Text = dgvCardDate.CurrentRow.Cells[8].Value.ToString();
                 cbExpansion.Text = dgvCardDate.CurrentRow.Cells[6].Value.ToString();
-            }
-            catch (Exception)
+                tbHave.Text = dgvCardDate.CurrentRow.Cells[9].Value.ToString();
+            } catch (Exception)
             {
                 ErrorMessage(2);
             }
-        }
-
-        private void btNew_Click(object sender, EventArgs e)
-        {
-            cbCardType.Text = null;
-            cbCardName.Text = null;
-            rbRed.Checked = false;
-            rbBlue.Checked = false;
-            rbGreen.Checked = false;
-            rbWhite.Checked = false;
-            rbBlack.Checked = false;
-            rbNoColor.Checked = false;
-            tbCardEffect.Text = null;
-            pbCardImage.Image = null;
-            cbExpansion.Text = null;
-            RadioReset();
         }
     }
 }
