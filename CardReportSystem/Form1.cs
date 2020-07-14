@@ -27,8 +27,9 @@ namespace CardReportSystem
         public Form1()
         {
             InitializeComponent();
-            dgvCardDate.DataSource = cards;
+            //dgvCardDate.DataSource = cards;
             dgvCardDate.AllowUserToAddRows = false;
+            dgvCardDate.Columns[0].Visible = false;
         }
 
         private void btAdd_Click(object sender, EventArgs e)
@@ -353,7 +354,7 @@ namespace CardReportSystem
             FileName = ofdOpenData.FileName;
             Text = Path.GetFileName(ofdOpenData.FileName) + " - メモ帳";
             保存SToolStripMenuItem.Enabled = true;
-
+            
             //オープンファイルダイアログを表示
             if (ofdOpenData.ShowDialog() == DialogResult.OK)
             {
@@ -436,76 +437,90 @@ namespace CardReportSystem
         {
             try
             {
+                string name = dgvCardDate.CurrentRow.Cells[2].Value.ToString();
+
                 SelectRow = dgvCardDate.CurrentCell.RowIndex;
 
-                dtpData.Text = dgvCardDate.CurrentRow.Cells[0].Value.ToString();
-                cbCardType.Text = dgvCardDate.CurrentRow.Cells[1].Value.ToString();
-                color = dgvCardDate.CurrentRow.Cells[2].Value.ToString();
-                switch (color)
-                {
-                    case "赤":
-                        rbRed.Checked = true;
-                        break;
-                    case "青":
-                        rbBlue.Checked = true;
-                        break;
-                    case "緑":
-                        rbGreen.Checked = true;
-                        break;
-                    case "白":
-                        rbWhite.Checked = true;
-                        break;
-                    case "黒":
-                        rbBlack.Checked = true;
-                        break;
-                    case "無":
-                        rbNoColor.Checked = true;
-                        break;
-                }
-                cost = dgvCardDate.CurrentRow.Cells[7].Value.ToString();
-                switch (cost)
-                {
-                    case "1":
-                        rbCost1.Checked = true;
-                        break;
-                    case "2":
-                        rbCost2.Checked = true;
-                        break;
-                    case "3":
-                        rbCost3.Checked = true;
-                        break;
-                    case "4":
-                        rbCost4.Checked = true;
-                        break;
-                    case "5":
-                        rbCost5.Checked = true;
-                        break;
-                    case "6":
-                        rbCost6.Checked = true;
-                        break;
-                    case "7":
-                        rbCost7.Checked = true;
-                        break;
-                    case "8":
-                        rbCost8.Checked = true;
-                        break;
-                    case "9":
-                        rbCost9.Checked = true;
-                        break;
-                    case "10+":
-                        rbCost10over.Checked = true;
-                        break;
-                }
-                tbCardName.Text = dgvCardDate.CurrentRow.Cells[3].Value.ToString();
-                tbCardEffect.Text = dgvCardDate.CurrentRow.Cells[4].Value.ToString();
-                pbCardImage.Image = cards[SelectRow].picture;
-                cbRare.Text = dgvCardDate.CurrentRow.Cells[8].Value.ToString();
-                cbExpansion.Text = dgvCardDate.CurrentRow.Cells[6].Value.ToString();
-                tbHave.Text = dgvCardDate.CurrentRow.Cells[9].Value.ToString();
+                RabelSet();
             } catch (Exception)
             {
                 ErrorMessage(2);
             }
+        }
+
+        private void RabelSet()
+        {
+            color = dgvCardDate.CurrentRow.Cells[4].Value.ToString();
+            switch (color)
+            {
+                case "赤":
+                    rbRed.Checked = true;
+                    break;
+                case "青":
+                    rbBlue.Checked = true;
+                    break;
+                case "緑":
+                    rbGreen.Checked = true;
+                    break;
+                case "白":
+                    rbWhite.Checked = true;
+                    break;
+                case "黒":
+                    rbBlack.Checked = true;
+                    break;
+                case "無":
+                    rbNoColor.Checked = true;
+                    break;
+            }
+            cost = dgvCardDate.CurrentRow.Cells[9].Value.ToString();
+            switch (cost)
+            {
+                case "1":
+                    rbCost1.Checked = true;
+                    break;
+                case "2":
+                    rbCost2.Checked = true;
+                    break;
+                case "3":
+                    rbCost3.Checked = true;
+                    break;
+                case "4":
+                    rbCost4.Checked = true;
+                    break;
+                case "5":
+                    rbCost5.Checked = true;
+                    break;
+                case "6":
+                    rbCost6.Checked = true;
+                    break;
+                case "7":
+                    rbCost7.Checked = true;
+                    break;
+                case "8":
+                    rbCost8.Checked = true;
+                    break;
+                case "9":
+                    rbCost9.Checked = true;
+                    break;
+                case "10+":
+                    rbCost10over.Checked = true;
+                    break;
+            }
+        }
+
+        private void cardReportSystemBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.cardReportSystemBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202007DataSet);
+
+        }
+
+        private void 接続ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO: このコード行はデータを 'infosys202007DataSet.CardReportSystem' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
+            this.cardReportSystemTableAdapter.Fill(this.infosys202007DataSet.CardReportSystem);
+            RabelSet();
         }
     }
 }
