@@ -59,6 +59,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="infosys202007DataSet.cs">
+      <DependentUpon>infosys202007DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="infosys202007DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

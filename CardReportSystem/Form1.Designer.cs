@@ -80,6 +80,7 @@
             this.新規作成NToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開くToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.接続ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.更新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.上書き保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -87,8 +88,6 @@
             this.編集EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.修正ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbCardName = new System.Windows.Forms.TextBox();
-            this.cardReportSystemTableAdapter = new CardReportSystem.infosys202007DataSetTableAdapters.CardReportSystemTableAdapter();
-            this.tableAdapterManager = new CardReportSystem.infosys202007DataSetTableAdapters.TableAdapterManager();
             this.dgvCardDate = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,6 +101,18 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tbSearchCardName = new System.Windows.Forms.TextBox();
+            this.label = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbSearchDate = new System.Windows.Forms.CheckBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.tbSearchCardColor = new System.Windows.Forms.TextBox();
+            this.dtpSearchCardCreatedDate = new System.Windows.Forms.DateTimePicker();
+            this.tbSearchReset = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.btSearchExe = new System.Windows.Forms.Button();
+            this.cardReportSystemTableAdapter = new CardReportSystem.infosys202007DataSetTableAdapters.CardReportSystemTableAdapter();
+            this.tableAdapterManager = new CardReportSystem.infosys202007DataSetTableAdapters.TableAdapterManager();
             ((System.ComponentModel.ISupportInitialize)(this.cardReportSystemBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.infosys202007DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCardImage)).BeginInit();
@@ -109,6 +120,7 @@
             this.gbCost.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCardDate)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dtpData
@@ -731,7 +743,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1278, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1485, 24);
             this.menuStrip1.TabIndex = 38;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -741,6 +753,7 @@
             this.新規作成NToolStripMenuItem,
             this.開くToolStripMenuItem,
             this.接続ToolStripMenuItem,
+            this.更新ToolStripMenuItem,
             this.上書き保存ToolStripMenuItem,
             this.保存SToolStripMenuItem,
             this.toolStripMenuItem1,
@@ -752,48 +765,54 @@
             // 新規作成NToolStripMenuItem
             // 
             this.新規作成NToolStripMenuItem.Name = "新規作成NToolStripMenuItem";
-            this.新規作成NToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.新規作成NToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.新規作成NToolStripMenuItem.Text = "新規作成(&N)";
             this.新規作成NToolStripMenuItem.Click += new System.EventHandler(this.新規作成NToolStripMenuItem_Click);
             // 
             // 開くToolStripMenuItem
             // 
             this.開くToolStripMenuItem.Name = "開くToolStripMenuItem";
-            this.開くToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.開くToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.開くToolStripMenuItem.Text = "開く(&O)";
             this.開くToolStripMenuItem.Click += new System.EventHandler(this.開くToolStripMenuItem_Click);
             // 
             // 接続ToolStripMenuItem
             // 
             this.接続ToolStripMenuItem.Name = "接続ToolStripMenuItem";
-            this.接続ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.接続ToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.接続ToolStripMenuItem.Text = "接続";
             this.接続ToolStripMenuItem.Click += new System.EventHandler(this.接続ToolStripMenuItem_Click);
+            // 
+            // 更新ToolStripMenuItem
+            // 
+            this.更新ToolStripMenuItem.Name = "更新ToolStripMenuItem";
+            this.更新ToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.更新ToolStripMenuItem.Text = "データベースへ上書き";
             // 
             // 上書き保存ToolStripMenuItem
             // 
             this.上書き保存ToolStripMenuItem.Enabled = false;
             this.上書き保存ToolStripMenuItem.Name = "上書き保存ToolStripMenuItem";
-            this.上書き保存ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.上書き保存ToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.上書き保存ToolStripMenuItem.Text = "上書き保存(&L)";
             this.上書き保存ToolStripMenuItem.Click += new System.EventHandler(this.上書き保存ToolStripMenuItem_Click);
             // 
             // 保存SToolStripMenuItem
             // 
             this.保存SToolStripMenuItem.Name = "保存SToolStripMenuItem";
-            this.保存SToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.保存SToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.保存SToolStripMenuItem.Text = "名前を付けて保存(&S)";
             this.保存SToolStripMenuItem.Click += new System.EventHandler(this.保存SToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(172, 6);
             // 
             // 終了XToolStripMenuItem
             // 
             this.終了XToolStripMenuItem.Name = "終了XToolStripMenuItem";
-            this.終了XToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.終了XToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.終了XToolStripMenuItem.Text = "終了(&X)";
             this.終了XToolStripMenuItem.Click += new System.EventHandler(this.終了XToolStripMenuItem_Click);
             // 
@@ -821,16 +840,6 @@
             this.tbCardName.Size = new System.Drawing.Size(200, 19);
             this.tbCardName.TabIndex = 39;
             // 
-            // cardReportSystemTableAdapter
-            // 
-            this.cardReportSystemTableAdapter.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.CardReportSystemTableAdapter = this.cardReportSystemTableAdapter;
-            this.tableAdapterManager.UpdateOrder = CardReportSystem.infosys202007DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
             // dgvCardDate
             // 
             this.dgvCardDate.AutoGenerateColumns = false;
@@ -855,7 +864,7 @@
             this.dgvCardDate.ReadOnly = true;
             this.dgvCardDate.RowTemplate.Height = 21;
             this.dgvCardDate.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCardDate.Size = new System.Drawing.Size(1246, 270);
+            this.dgvCardDate.Size = new System.Drawing.Size(1148, 270);
             this.dgvCardDate.TabIndex = 39;
             this.dgvCardDate.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCardDate_CellClick);
             // 
@@ -943,11 +952,120 @@
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.ReadOnly = true;
             // 
+            // tbSearchCardName
+            // 
+            this.tbSearchCardName.Location = new System.Drawing.Point(6, 49);
+            this.tbSearchCardName.Name = "tbSearchCardName";
+            this.tbSearchCardName.Size = new System.Drawing.Size(172, 19);
+            this.tbSearchCardName.TabIndex = 40;
+            // 
+            // label
+            // 
+            this.label.AutoSize = true;
+            this.label.Location = new System.Drawing.Point(6, 24);
+            this.label.Name = "label";
+            this.label.Size = new System.Drawing.Size(29, 12);
+            this.label.TabIndex = 41;
+            this.label.Text = "名前";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.groupBox1.Controls.Add(this.cbSearchDate);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.tbSearchCardColor);
+            this.groupBox1.Controls.Add(this.dtpSearchCardCreatedDate);
+            this.groupBox1.Controls.Add(this.tbSearchReset);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.btSearchExe);
+            this.groupBox1.Controls.Add(this.label);
+            this.groupBox1.Controls.Add(this.tbSearchCardName);
+            this.groupBox1.Location = new System.Drawing.Point(1273, 66);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(188, 236);
+            this.groupBox1.TabIndex = 42;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "検索";
+            // 
+            // cbSearchDate
+            // 
+            this.cbSearchDate.AutoSize = true;
+            this.cbSearchDate.Location = new System.Drawing.Point(41, 137);
+            this.cbSearchDate.Name = "cbSearchDate";
+            this.cbSearchDate.Size = new System.Drawing.Size(138, 16);
+            this.cbSearchDate.TabIndex = 46;
+            this.cbSearchDate.Text = "日付を検索条件に追加";
+            this.cbSearchDate.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 81);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(17, 12);
+            this.label13.TabIndex = 44;
+            this.label13.Text = "色";
+            // 
+            // tbSearchCardColor
+            // 
+            this.tbSearchCardColor.Location = new System.Drawing.Point(6, 106);
+            this.tbSearchCardColor.Name = "tbSearchCardColor";
+            this.tbSearchCardColor.Size = new System.Drawing.Size(172, 19);
+            this.tbSearchCardColor.TabIndex = 43;
+            // 
+            // dtpSearchCardCreatedDate
+            // 
+            this.dtpSearchCardCreatedDate.Checked = false;
+            this.dtpSearchCardCreatedDate.Location = new System.Drawing.Point(6, 163);
+            this.dtpSearchCardCreatedDate.Name = "dtpSearchCardCreatedDate";
+            this.dtpSearchCardCreatedDate.Size = new System.Drawing.Size(172, 19);
+            this.dtpSearchCardCreatedDate.TabIndex = 45;
+            // 
+            // tbSearchReset
+            // 
+            this.tbSearchReset.Location = new System.Drawing.Point(95, 198);
+            this.tbSearchReset.Name = "tbSearchReset";
+            this.tbSearchReset.Size = new System.Drawing.Size(83, 31);
+            this.tbSearchReset.TabIndex = 43;
+            this.tbSearchReset.Text = "検索リセット";
+            this.tbSearchReset.UseVisualStyleBackColor = true;
+            this.tbSearchReset.Click += new System.EventHandler(this.SearchReset_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 138);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 12);
+            this.label12.TabIndex = 44;
+            this.label12.Text = "日付";
+            // 
+            // btSearchExe
+            // 
+            this.btSearchExe.Location = new System.Drawing.Point(8, 198);
+            this.btSearchExe.Name = "btSearchExe";
+            this.btSearchExe.Size = new System.Drawing.Size(72, 31);
+            this.btSearchExe.TabIndex = 42;
+            this.btSearchExe.Text = "実行";
+            this.btSearchExe.UseVisualStyleBackColor = true;
+            this.btSearchExe.Click += new System.EventHandler(this.btSearchExe_Click);
+            // 
+            // cardReportSystemTableAdapter
+            // 
+            this.cardReportSystemTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.CardReportSystemTableAdapter = this.cardReportSystemTableAdapter;
+            this.tableAdapterManager.UpdateOrder = CardReportSystem.infosys202007DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1278, 740);
+            this.ClientSize = new System.Drawing.Size(1485, 740);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvCardDate);
             this.Controls.Add(this.tbCardName);
             this.Controls.Add(this.gbCost);
@@ -989,6 +1107,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCardDate)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1069,6 +1189,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.ToolStripMenuItem 接続ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 更新ToolStripMenuItem;
+        private System.Windows.Forms.TextBox tbSearchCardName;
+        private System.Windows.Forms.Label label;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btSearchExe;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DateTimePicker dtpSearchCardCreatedDate;
+        private System.Windows.Forms.Button tbSearchReset;
+        internal System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox tbSearchCardColor;
+        private System.Windows.Forms.CheckBox cbSearchDate;
     }
 }
 

@@ -23,6 +23,7 @@ namespace CardReportSystem
         private int SelectRow;
         string color;
         string cost;
+        string ErrorText;
 
         public Form1()
         {
@@ -46,7 +47,7 @@ namespace CardReportSystem
             {
                 RadioSet();
 
-                AddData(color, cost);
+                AddData(color, cost);//チェックされているラジオボタンの分を変数に代入してある
                 TextErase();
                 dgvCardDate.ClearSelection();
                 SelectRow = -1;
@@ -87,6 +88,8 @@ namespace CardReportSystem
 
         private void AddData(string color,string cost)
         {
+
+
             Card card = new Card();
             card.time = dtpData.Value;
             card.type = cbCardType.Text;
@@ -113,7 +116,7 @@ namespace CardReportSystem
             }
             card.name = tbCardName.Text;
             card.Effect = tbCardEffect.Text;
-            card.picture = pbCardImage.Image;
+            dgvCardDate.CurrentRow.Cells[7].Value = ImageToByteArray(pbCardImage.Image);
             card.Expansion = cbExpansion.Text;
             switch (cost)
             {
@@ -166,14 +169,14 @@ namespace CardReportSystem
 
         private void ErrorMessage(int num)
         {
-            string ErrorText="";
+            ErrorText="";
             switch (num)
             {
                 case 1:
                     ErrorText = "全ての項目へ入力が必要です。";
                     break;
                 case 2:
-                    ErrorText = "選択した行にはデータがありません。";
+                    ErrorText = "データがありません。";
                     break;
                 case 3:
                     ErrorText = "変更するものが選択されていません。";
@@ -189,6 +192,9 @@ namespace CardReportSystem
                     break;
                 case 7:
                     ErrorText = "変更する行が選択されていません。";
+                    break;
+                case 8:
+                    ErrorText = "画像を選択してください。";
                     break;
             }
             MessageBox.Show(ErrorText,
@@ -214,85 +220,93 @@ namespace CardReportSystem
 
         private void btModify_Click(object sender, EventArgs e)
         {
-            if (dgvCardDate.SelectedRows.Count <= 0)
+            if (dgvCardDate.Rows.Count == 0)
             {
-                ErrorMessage(7);
-            } else {
-                Modify();
+                ErrorMessage(2);
+            }else{
+                if (dgvCardDate.SelectedRows.Count <= 0)
+                {
+                    ErrorMessage(7);
+                } else
+                {
+                    Modify();
+                    UpdateAll();
+                }
             }
         }
 
         private void Modify()
         {
-            try
+            RadioSet();
+            switch (color)
             {
-                RadioSet();
-                switch (color)
-                {
-                    case "赤":
-                        cards[SelectRow].color = CardColor.赤;
-                        break;
-                    case "青":
-                        cards[SelectRow].color = CardColor.青;
-                        break;
-                    case "緑":
-                        cards[SelectRow].color = CardColor.緑;
-                        break;
-                    case "白":
-                        cards[SelectRow].color = CardColor.白;
-                        break;
-                    case "黒":
-                        cards[SelectRow].color = CardColor.黒;
-                        break;
-                    case "無":
-                        cards[SelectRow].color = CardColor.無;
-                        break;
-                }
-                switch (cost)
-                {
-                    case "1":
-                        cards[SelectRow].Cost = "1";
-                        break;
-                    case "2":
-                        cards[SelectRow].Cost = "2";
-                        break;
-                    case "3":
-                        cards[SelectRow].Cost = "3";
-                        break;
-                    case "4":
-                        cards[SelectRow].Cost = "4";
-                        break;
-                    case "5":
-                        cards[SelectRow].Cost = "5";
-                        break;
-                    case "6":
-                        cards[SelectRow].Cost = "6";
-                        break;
-                    case "7":
-                        cards[SelectRow].Cost = "7";
-                        break;
-                    case "8":
-                        cards[SelectRow].Cost = "8";
-                        break;
-                    case "9":
-                        cards[SelectRow].Cost = "9";
-                        break;
-                    case "10+":
-                        cards[SelectRow].Cost = "10+";
-                        break;
-                }
-                cards[SelectRow].Expansion = cbExpansion.Text;
-                cards[SelectRow].Have = int.Parse(tbHave.Text);
-                cards[SelectRow].Rarity = cbRare.Text;
-                cards[SelectRow].type = cbCardType.Text;
-                cards[SelectRow].name = tbCardName.Text;
-                cards[SelectRow].Effect = tbCardEffect.Text;
-                cards[SelectRow].picture = pbCardImage.Image;
-                this.dgvCardDate.Refresh();
-            } catch (Exception)
-            {
-                ErrorMessage(3);
+                case "赤":
+                    dgvCardDate.CurrentRow.Cells[4].Value = CardColor.赤;
+                    break;
+                case "青":
+                    dgvCardDate.CurrentRow.Cells[4].Value = CardColor.青;
+                    break;
+                case "緑":
+                    dgvCardDate.CurrentRow.Cells[4].Value = CardColor.緑;
+                    break;
+                case "白":
+                    dgvCardDate.CurrentRow.Cells[4].Value = CardColor.白;
+                    break;
+                case "黒":
+                    dgvCardDate.CurrentRow.Cells[4].Value = CardColor.黒;
+                    break;
+                case "無":
+                    dgvCardDate.CurrentRow.Cells[4].Value = CardColor.無;
+                    break;
             }
+            switch (cost)
+            {
+                case "1":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "1";
+                    break;
+                case "2":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "2";
+                    break;
+                case "3":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "3";
+                    break;
+                case "4":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "4";
+                    break;
+                case "5":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "5";
+                    break;
+                case "6":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "6";
+                    break;
+                case "7":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "7";
+                    break;
+                case "8":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "8";
+                    break;
+                case "9":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "9";
+                    break;
+                case "10+":
+                    dgvCardDate.CurrentRow.Cells[9].Value = "10+";
+                    break;
+            }
+            dgvCardDate.CurrentRow.Cells[1].Value = dtpData.Value.ToString();
+            dgvCardDate.CurrentRow.Cells[3].Value = cbCardType.Text;
+            dgvCardDate.CurrentRow.Cells[5].Value = tbCardName.Text;
+            dgvCardDate.CurrentRow.Cells[6].Value = tbCardEffect.Text;
+
+            if (pbCardImage.Image != null)
+            {
+                dgvCardDate.CurrentRow.Cells[7].Value = ImageToByteArray(pbCardImage.Image);
+            } else {
+                dgvCardDate.CurrentRow.Cells[7].Value = null;
+            }
+            dgvCardDate.CurrentRow.Cells[8].Value = cbExpansion.Text;
+            dgvCardDate.CurrentRow.Cells[10].Value = cbRare.Text;
+            dgvCardDate.CurrentRow.Cells[11].Value = int.Parse(tbHave.Text);
+            this.dgvCardDate.Refresh();
         }
 
         private void btDelete_Click(object sender, EventArgs e)
@@ -302,8 +316,7 @@ namespace CardReportSystem
                 if (dgvCardDate.SelectedRows.Count <= 0)
                 {
                     ErrorMessage(5);
-                } else
-                {
+                } else{
                     cards.RemoveAt(SelectRow);
                     this.dgvCardDate.Refresh();
                     TextErase();
@@ -435,17 +448,12 @@ namespace CardReportSystem
 
         private void dgvCardDate_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
-                string name = dgvCardDate.CurrentRow.Cells[2].Value.ToString();
-
-                SelectRow = dgvCardDate.CurrentCell.RowIndex;
-
-                RabelSet();
-            } catch (Exception)
-            {
-                ErrorMessage(2);
+            if (dgvCardDate.CurrentRow.Cells[7].Value == ""){
+            } else {
+                pbCardImage.Image = ByteArrayToImage((byte[])dgvCardDate.CurrentRow.Cells[7].Value); 
             }
+            SelectRow = dgvCardDate.CurrentCell.RowIndex;
+            RabelSet();
         }
 
         private void RabelSet()
@@ -520,7 +528,59 @@ namespace CardReportSystem
         {
             // TODO: このコード行はデータを 'infosys202007DataSet.CardReportSystem' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
             this.cardReportSystemTableAdapter.Fill(this.infosys202007DataSet.CardReportSystem);
+            pbCardImage.SizeMode = PictureBoxSizeMode.StretchImage;
             RabelSet();
+        }
+
+        private void データベースへ上書きToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateAll();
+        }
+
+        private void UpdateAll()
+        {
+            this.Validate();
+            this.cardReportSystemBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202007DataSet);
+        }
+
+        //Imageオブジェクトをバイト配列に変換
+        public static byte[] ImageToByteArray(Image img)
+        {
+            ImageConverter imgconv = new ImageConverter();
+            byte[] byteData = (byte[])imgconv.ConvertTo(img, typeof(byte[]));
+            return byteData;
+        }
+
+        // バイト配列をImageオブジェクトに変換
+        public static Image ByteArrayToImage(byte[] b)
+        {
+            ImageConverter imgconv = new ImageConverter();
+            Image img = (Image)imgconv.ConvertFrom(b);
+            return img;
+        }
+
+        private void btSearchExe_Click(object sender, EventArgs e)
+        {
+            if (cbSearchDate.Checked == true)
+            {
+                this.cardReportSystemTableAdapter.FillByCardALL(this.infosys202007DataSet.CardReportSystem, dtpSearchCardCreatedDate.Text, tbSearchCardColor.Text ,tbSearchCardName.Text);
+            } else {
+                this.cardReportSystemTableAdapter.FillByCardNoDate(this.infosys202007DataSet.CardReportSystem, tbSearchCardColor.Text, tbSearchCardName.Text);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SearchReset_Click(object sender, EventArgs e)
+        {
+            tbSearchCardName.Text = "";
+            tbSearchCardColor.Text = "";
+            cbSearchDate.Checked = false;
+            this.cardReportSystemTableAdapter.FillByCardNoDate(this.infosys202007DataSet.CardReportSystem, tbSearchCardColor.Text, tbSearchCardName.Text);
         }
     }
 }
